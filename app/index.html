@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Kick TV 2.0</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="$WEBAPIS/webapis/webapis.js"></script>
+</head>
+<body>
+  <main id="home">
+    <div class="home-grid"></div>
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <header class="topbar">
+      <div class="brand">
+        <img src="kick-icon.png" alt="">
+        <div>
+          <strong>KICK <em>TV</em> <i class="ver-badge">2.0</i></strong>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="searchBtn" class="focusable search-launch" type="button" data-i18n="search">Szukaj</button>
+      </div>
+    </header>
+
+    <div id="homeBody" class="home-body">
+      <section id="liveSection" class="shelf">
+        <h2 data-i18n="liveNow">Na żywo</h2>
+        <div id="liveRow" class="shelf-row"></div>
+      </section>
+      <section id="recentSection" class="shelf hidden">
+        <h2 data-i18n="recent">Ostatnio oglądane</h2>
+        <div id="recent" class="shelf-row"></div>
+      </section>
+      <section id="catSection" class="shelf">
+        <h2 data-i18n="categories">Kategorie</h2>
+        <div id="catRow" class="shelf-row"></div>
+      </section>
+      <section id="catLiveSection" class="shelf hidden">
+        <h2 id="catLiveTitle"></h2>
+        <div id="catLiveRow" class="shelf-row"></div>
+      </section>
+    </div>
+
+    <footer class="home-footer">
+      <div>
+        <span class="key">OK</span><span data-i18n="select">wybierz</span>
+        <span class="key">↩</span><span data-i18n="back">wstecz</span>
+      </div>
+      <div class="footer-tip" data-i18n="homeHint">↑↓ półki · ←→ kafle · Szukaj u góry</div>
+    </footer>
+  </main>
+
+  <section id="searchOverlay" class="overlay hidden" aria-hidden="true">
+    <div class="overlay-card">
+      <h2 data-i18n="searchTitle">Szukaj na Kicku</h2>
+      <label class="sr-only" for="channel" data-i18n="searchStreamer">Szukaj streamera</label>
+      <div class="input-row">
+        <input id="channel" class="focusable" type="text" placeholder="Nazwa kanału…" data-i18n-placeholder="streamerPlaceholder" autocomplete="off">
+        <button id="watch" class="focusable primary" type="button" data-i18n="searchGo">Szukaj</button>
+      </div>
+      <p class="hint"><span>TIP</span><b data-i18n="searchTip">Z pola tekstowego zejdź strzałką ↓ do wyników. ↩ zamyka szukanie.</b></p>
+      <div class="result-heading hidden"><h2 data-i18n="searchResults">Wyniki</h2><span id="searchState"></span></div>
+      <div id="results" class="results"></div>
+    </div>
+  </section>
+
+  <section id="hubView" class="hub hidden">
+    <div id="hubBackdrop" class="hub-backdrop"></div>
+    <div class="hub-veil"></div>
+    <header class="hub-head">
+      <img id="hubAvatar" class="hub-avatar" alt="">
+      <div>
+        <strong id="hubTitle">Kick</strong>
+        <span id="hubMeta"></span>
+      </div>
+    </header>
+    <section class="shelf">
+      <h2 data-i18n="liveNow">Na żywo</h2>
+      <div id="hubLiveRow" class="shelf-row"></div>
+    </section>
+    <section class="shelf">
+      <h2 data-i18n="archives">Archiwa</h2>
+      <div id="hubVods" class="shelf-row"></div>
+    </section>
+    <footer class="home-footer hub-footer">
+      <div>
+        <span class="key">OK</span><span data-i18n="select">wybierz</span>
+        <span class="key">↩</span><span data-i18n="back">wstecz</span>
+      </div>
+      <div class="footer-tip" data-i18n="hubHint">LIVE odtwarza na żywo · archiwum odpala VOD</div>
+    </footer>
+  </section>
+
+  <section id="playerView" class="hidden">
+    <object id="av-player" type="application/avplayer"></object>
+    <div id="videoMatteTop" class="video-matte"></div>
+    <div id="videoMatteBottom" class="video-matte"></div>
+    <div id="videoMatteSide" class="video-matte"></div>
+    <div id="playerStatus"><div class="spinner"></div><strong id="statusTitle" data-i18n="loadingStream">Ładuję stream…</strong><span id="statusDetail"></span></div>
+    <div id="playerHud">
+      <span id="nowPlaying"></span>
+      <span id="playerHint" data-i18n="playerHintDefault">OK: chat · ↩ wstecz</span>
+    </div>
+    <div id="vodBar" class="vod-bar" aria-hidden="true">
+      <span id="vodTime">0:00 / 0:00</span>
+      <div class="vod-track"><div id="vodFill"></div></div>
+    </div>
+    <aside id="chatPanel" aria-hidden="true">
+      <header class="chat-header">
+        <div><span class="chat-dot"></span><strong data-i18n="liveChat">Czat na żywo</strong><i class="seven-badge">7TV</i></div>
+        <span id="chatStatus" data-i18n="connecting">Łączę…</span>
+      </header>
+      <div id="chatMessages" class="chat-messages">
+        <div class="chat-empty" data-i18n="chatEmpty">Nowe wiadomości pojawią się tutaj.</div>
+      </div>
+      <footer class="chat-footer"><span class="ok-key">OK</span><span data-i18n="hudChatOn">OK pełny obraz</span></footer>
+    </aside>
+    <aside id="qualityMenu" class="quality-menu" aria-hidden="true">
+      <div class="quality-heading"><span>↑</span><div><strong data-i18n="qualityTitle">Jakość obrazu</strong><small data-i18n="qualitySubtitle">Zmiana na chwilę przeładuje stream</small></div></div>
+      <div id="qualityOptions" class="quality-options"></div>
+      <div class="quality-help" data-i18n="qualityHelp">↑ ↓ wybierz · OK zatwierdź · ↩ zamknij</div>
+    </aside>
+  </section>
+  <div id="sparkles" aria-hidden="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
